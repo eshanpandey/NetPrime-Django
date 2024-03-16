@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from django.contrib.auth.models import User , auth
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
@@ -10,7 +9,20 @@ def index(request):
     return render(request, 'index.html')
 
 def login(request):
-    return render(request,'login.html')
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = auth.authenticate(username=username, password=password)
+
+        if user is not None:
+            auth.login(request, user)
+            return redirect('/')
+        else:
+            messages.info(request, ' Username And Password Do Not Match')
+            return redirect('login')
+    
+    return render(request, 'login.html')
 
 def signup(request):
     if request.method == 'POST':
@@ -29,8 +41,6 @@ def signup(request):
             else:
                 user = User.objects.create_user(username=username, email=email, password=password)
                 user.save()
-
-                # log user in
                 user_login = auth.authenticate(username=username, password=password)
                 auth.login(request, user_login)
                 return redirect('/')
