@@ -77,11 +77,14 @@ WSGI_APPLICATION = 'netprime.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    'NAME': 'database',
+    'USER': 'fl0user',
+    'PASSWORD': 'tOa2BsikCG3h',
+    'HOST': 'ep-patient-heart-a19rebj3.ap-southeast-1.aws.neon.fl0.io',
+    'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
