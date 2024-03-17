@@ -1,2 +1,2 @@
 # NetPrime-Django
-A video straming application
+A video streaming application
