@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Movie
+from .models import Movie, MovieList
 
 # Create your views here.
 @login_required(login_url='login')
@@ -21,9 +21,18 @@ def movie(request, pk):
     movie_details = Movie.objects.get(uu_id=movie_uuid)
 
     context = {
-        'movie': movie_details,
+        'movie_details': movie_details
     }
+
     return render(request, 'movie.html', context)
+
+def my_list(request):
+    # TODO : Get the list of movies added by the user
+    pass
+
+def add_to_list(request):
+    pass
+
 
 
 def login(request):
@@ -68,3 +77,9 @@ def signup(request):
             return redirect('signup')
     else:
         return render(request, 'signup.html')
+
+
+@login_required(login_url='login')
+def logout(request):
+    auth.logout(request)
+    return redirect('/')
