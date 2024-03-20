@@ -29,9 +29,18 @@ def movie(request, pk):
 
     return render(request, 'movie.html', context)
 
+@login_required(login_url='login')
 def my_list(request):
-    # TODO : Get the list of movies added by the user
-    pass
+     movie_list = MovieList.objects.filter(owner_user=request.user)
+     user_movie_list = []
+
+     for movie in movie_list:
+        user_movie_list.append(movie.movie)
+     
+     context = {
+        'movies': user_movie_list
+    }
+     return render(request, 'my_list.html', context)
 
 
 def add_to_list(request):
@@ -56,8 +65,10 @@ def add_to_list(request):
                 'message': 'Movie Already In List'
             }
 
+        return JsonResponse(response_data)
+
     else :
-        return redirect('/')
+        return  JsonResponse({'status': 'error', 'message': 'Invalid Request'}, staus=400)
 
 
 
