@@ -134,3 +134,26 @@ def remove_from_list(request):
     else:
         # return error
         return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+    
+
+def search (request):
+    if(request.method=='POST'):
+        search_term=request.POST['search_term']
+        movies = Movie.objects.filter(title__icontains=search_term)
+
+        context={
+            'movies':movies,
+            'search_term':search_term,
+        }
+        return render(request,'search.html',context)
+    else:
+        return redirect('/')
+   
+def genre(request, genre):
+    movies = Movie.objects.filter(genre=genre)
+
+    context = {
+        'movies': movies,
+        'genre': genre
+    }
+    return render(request, 'genre.html', context)
