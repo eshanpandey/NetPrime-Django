@@ -98,9 +98,10 @@
                 <a href="movie.html">
                     <button class="bg-red-600 text-white p-2 px-5 rounded hover:bg-red-500">Play</button>
                 </a>
-                <button id="addToListButton" onclick="addItemToList()" class="border border-white text-white p-2 px-5 rounded hover:bg-gray-700">
-                    Add to List
+                <button id="removeFromListButton" onclick="removeFromList('{{ movie.id }}')" class="border border-white text-white p-2 px-5 rounded hover:bg-gray-700">
+                    Remove from List
                 </button>
+                
             </div>
         </div>
     </div>
@@ -150,30 +151,25 @@
             }
         }
 
-        function addItemToList() {
-            const modal = document.getElementById('movieModal')
-            var movieID = modal.querySelector('.modal-content a').href;
-
-            $.ajax({
-                url: "{% url 'add-to-list' %}",
-                type: "POST",
-                data: {
-                    movie_id: movieID,
-                    csrfmiddlewaretoken: "{{ csrf_token }}"
-                },
-                success: function(data) {
-                    $('#addToListButton').text(data.message);
-
-                    $('#addToListButton').prop('disabled', true);
-
-                    console.log("Item added to list!");
-                },
-                error: function(xhr, errmsg, err) {
-                    
-                    console.error("Error adding item to list: " + errmsg);
-                }
-            });
+        function removeFromList(movieID) {
+    $.ajax({
+        url: "{% url 'remove-from-list' %}",
+        type: "POST",
+        data: {
+            movie_id: movieID,
+            csrfmiddlewaretoken: "{{ csrf_token }}"
+        },
+        success: function(data) {
+            $('#removeFromListButton').text(data.message);
+            $('#removeFromListButton').prop('disabled', true);
+            console.log("Item removed from list!");
+        },
+        error: function(xhr, errmsg, err) {
+            console.error("Error removing item from list: " + errmsg);
         }
+    });
+}
+
     </script>
 </body>
 
