@@ -1,5 +1,3 @@
-Here's a good README file for your Netflix clone project built with Django:
-
 # Netflix Clone
 
 This is a web application that aims to replicate some of the core features of Netflix, the popular online streaming platform. The application is built using the Django web framework and allows users to browse and add movies to their watchlists.
